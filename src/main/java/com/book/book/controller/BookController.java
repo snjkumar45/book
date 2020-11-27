@@ -46,6 +46,12 @@ public class BookController {
         return "id";
 
     }
+    @PostMapping("/update/{bookId}")
+    public Book updateBook(@RequestBody Book book,@PathVariable("bookId")int bookId){
+        this.bookService.updateBook(book,bookId);
+        return book;
+         
+    }
      
 
     }

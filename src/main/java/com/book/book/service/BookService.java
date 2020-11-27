@@ -2,7 +2,6 @@ package com.book.book.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import com.book.book.model.Book;
@@ -48,5 +47,18 @@ public class BookService {
         ).collect(Collectors.toList());
       
     }
+
+    //update book
+	public void updateBook(Book book,int bookId) {
+        list.stream().map(b->{
+            if(b.getBookId()==bookId){
+                b.setBookName(book.getBookName());
+                b.setBookPrice(book.getBookPrice());
+            }
+            return b;
+
+        }).collect(Collectors.toList());
+         
+	}
      
 }
