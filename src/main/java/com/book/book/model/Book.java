@@ -1,14 +1,14 @@
 package com.book.book.model;
 
 public class Book {
-    private long bookId;
+    private int bookId;
     private String bookName;
     private Double bookPrice;
 
     public Book() {
     }
 
-    public Book(long bookId, String bookName, Double bookPrice) {
+    public Book(int bookId, String bookName, Double bookPrice) {
         this.bookId = bookId;
         this.bookName = bookName;
         this.bookPrice = bookPrice;
@@ -19,11 +19,11 @@ public class Book {
         return "Book [bookId=" + bookId + ", bookName=" + bookName + ", bookPrice=" + bookPrice + "]";
     }
 
-    public long getBookId() {
+    public int getBookId() {
         return bookId;
     }
 
-    public void setBookId(long bookId) {
+    public void setBookId(int bookId) {
         this.bookId = bookId;
     }
 
@@ -42,7 +42,6 @@ public class Book {
     public void setBookPrice(Double bookPrice) {
         this.bookPrice = bookPrice;
     }
-    
 
     
 }
