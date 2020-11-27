@@ -2,6 +2,8 @@ package com.book.book.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import com.book.book.model.Book;
 
@@ -18,13 +20,29 @@ public class BookService {
     }
     //get all book
     public List<Book> getAllBook(){
+        System.out.println("hit by client");
         return list;
     }
     //get single by id
     public Book getBookById(int id){
         Book book=null;
+        System.out.println("hit by client");
        book= list.stream().filter(e->e.getBookId()==id).findFirst().get();
         return book;
         
     }
+	public Book addBook(Book book) {
+        list.add(book);
+        System.out.println("hit by client");
+        return book;
+	}
+	public void deleteBook(int id) {
+        list.stream().filter(book->{
+            if(book.getBookId()!=id){
+                return true;
+            }else{
+                return false;
+            }
+        }).collect(Collectors.toList());
+	}
 }

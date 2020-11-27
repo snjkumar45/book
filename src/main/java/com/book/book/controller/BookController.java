@@ -8,6 +8,8 @@ import com.book.book.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -29,6 +31,17 @@ public class BookController {
     public Book getBook(@PathVariable int id){
         return this.bookService.getBookById(id);
         
+    }
+    @PostMapping("/add")
+    public Book addBook(@RequestBody Book book){
+        Book addBook = this.bookService.addBook(book);
+        return addBook;
+
+    }
+    public String deleteBook(int id){
+        this.bookService.deleteBook(id);
+        return "id";
+
     }
      
 
