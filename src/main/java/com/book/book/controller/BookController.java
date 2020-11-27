@@ -1,11 +1,14 @@
 package com.book.book.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.book.book.model.Book;
 import com.book.book.service.BookService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,24 +22,37 @@ public class BookController {
     private BookService bookService;
 
     @GetMapping("/books")
-    public List<Book> getBook(){
-        
+    public ResponseEntity<List<Book>> getBook(){
+        List<Book> list = this.bookService.getAllBook();
+        if(list.size()<=0){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
         // Book book=new Book();
         // book.setBookId(101);
         // book.setBookName("math");
         // book.setBookPrice(1000d);
-        return this.bookService.getAllBook();
+        return ResponseEntity.of(Optional.of(list));
 
     }
     @GetMapping("/book/{id}")
-    public Book getBook(@PathVariable int id){
-        return this.bookService.getBookById(id);
+    public ResponseEntity<Book> getBook(@PathVariable int id){
+        Book book = this.bookService.getBookById(id);
+        if(book==null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.of(Optional.of(book));
         
     }
     @PostMapping("/add")
-    public Book addBook(@RequestBody Book book){
-        Book addBook = this.bookService.addBook(book);
-        return addBook;
+    public ResponseEntity<Book> addBook(@RequestBody Book book){
+        Book bo=null;
+       try {
+        bo = this.bookService.addBook(book);
+        return ResponseEntity.status(HttpStatus.CREATED).build()
+       } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+       }
 
     }
     @DeleteMapping("book/{id}")

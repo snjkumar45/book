@@ -25,8 +25,17 @@ public class BookService {
     //get single by id
     public Book getBookById(int id){
         Book book=null;
-        System.out.println("hit by client");
-       book= list.stream().filter(e->e.getBookId()==id).findFirst().get();
+ 
+        try{  
+            System.out.println("hit by client");
+            book= list.stream().filter(e->e.getBookId()==id).findFirst().get();
+     
+
+        }
+        catch (Exception e) {
+        e.printStackTrace(); 
+        }
+       
         return book;
         
     }
