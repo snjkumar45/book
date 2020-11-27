@@ -6,6 +6,7 @@ import com.book.book.model.Book;
 import com.book.book.service.BookService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,7 +39,9 @@ public class BookController {
         return addBook;
 
     }
-    public String deleteBook(int id){
+    @DeleteMapping("book/{id}")
+    public String deleteBook(@PathVariable int id){
+        System.out.println("hit by client");
         this.bookService.deleteBook(id);
         return "id";
 

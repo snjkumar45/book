@@ -37,12 +37,16 @@ public class BookService {
         return book;
 	}
 	public void deleteBook(int id) {
-        list.stream().filter(book->{
-            if(book.getBookId()!=id){
-                return true;
-            }else{
-                return false;
-            }
-        }).collect(Collectors.toList());
-	}
+        list = list.stream().filter(book->book.getBookId()!=id
+        // {
+        //     if(book.getBookId()!=id){
+        //         return true;
+        //     }else{
+        //         return false;
+        //     }
+        // }
+        ).collect(Collectors.toList());
+      
+    }
+     
 }
