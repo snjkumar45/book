@@ -1,9 +1,11 @@
 package com.book.book.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -14,19 +16,23 @@ public class Book {
     private int bookId;
     private String bookName;
     private Double bookPrice;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Author author;
 
     public Book() {
     }
 
-    public Book(int bookId, String bookName, Double bookPrice) {
+    public Book(int bookId, String bookName, Double bookPrice, Author author) {
         this.bookId = bookId;
         this.bookName = bookName;
         this.bookPrice = bookPrice;
+        this.author = author;
     }
 
     @Override
     public String toString() {
-        return "Book [bookId=" + bookId + ", bookName=" + bookName + ", bookPrice=" + bookPrice + "]";
+        return "Book [author=" + author + ", bookId=" + bookId + ", bookName=" + bookName + ", bookPrice=" + bookPrice
+                + "]";
     }
 
     public int getBookId() {
@@ -53,5 +59,13 @@ public class Book {
         this.bookPrice = bookPrice;
     }
 
+    public Author getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(Author author) {
+        this.author = author;
+    }
     
+     
 }

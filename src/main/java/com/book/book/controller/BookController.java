@@ -55,6 +55,7 @@ public class BookController {
 
         catch (Exception e) {
             e.printStackTrace();
+            System.out.println("this is exception ::"+e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
 
