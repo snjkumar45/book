@@ -35,8 +35,8 @@ public class BookController {
 
     }
     @GetMapping("/book/{id}")
-    public ResponseEntity<Book> getBook(@PathVariable int id){
-        Book book = this.bookService.getBookById(id);
+    public ResponseEntity<Optional<Book>> getBook(@PathVariable int id) {
+        Optional<Book> book = this.bookService.getBookById(id);
         if(book==null){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
@@ -45,27 +45,39 @@ public class BookController {
     }
     @PostMapping("/add")
     public ResponseEntity<Book> addBook(@RequestBody Book book){
-        Book bo=null;
-       try {
-        bo = this.bookService.addBook(book);
-        return ResponseEntity.status(HttpStatus.CREATED).build()
+        try {
+            return ResponseEntity.status(HttpStatus.CREATED).build();
        } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
        }
+       
 
     }
     @DeleteMapping("book/{id}")
-    public String deleteBook(@PathVariable int id){
-        System.out.println("hit by client");
+    public ResponseEntity<Book> deleteBook(@PathVariable int id){
+        try {
+            System.out.println("hit by client");
         this.bookService.deleteBook(id);
-        return "id";
+        return  ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        } catch (Exception e) {
+            e.printStackTrace();
+             return  ResponseEntity.status(HttpStatus.
+             INTERNAL_SERVER_ERROR).build();
+        }
+         
 
     }
     @PostMapping("/update/{bookId}")
-    public Book updateBook(@RequestBody Book book,@PathVariable("bookId")int bookId){
+    public ResponseEntity<Book> updateBook(@RequestBody Book book,@PathVariable("bookId")int bookId){
+       
+       try {
         this.bookService.updateBook(book,bookId);
-        return book;
+        return ResponseEntity.ok().body(book);
+       } catch (Exception e) {
+           e.printStackTrace();
+           return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+       }
          
     }
      

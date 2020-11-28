@@ -1,73 +1,76 @@
 package com.book.book.service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 import com.book.book.model.Book;
+import com.book.book.repository.BookRepository;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 @Service
 public class BookService {
-    private static List<Book> list = new ArrayList<>();
-    static{
-        list.add(new Book(110, "English", 1991d));
-        list.add(new Book(111, "Science", 13331d));
-        list.add(new Book(112, "SANSkrit", 133991d));
-        list.add(new Book(113, "Loveh", 193391d));
-        list.add(new Book(114, "Poloiy", 1933391d));
-    }
-    //get all book
-    public List<Book> getAllBook(){
+    @Autowired
+    private BookRepository bookRepository;
+
+    // get all book
+    public List<Book> getAllBook() {
         System.out.println("hit by client");
+        List<Book> list = this.bookRepository.findAll();
         return list;
     }
-    //get single by id
-    public Book getBookById(int id){
-        Book book=null;
- 
-        try{  
-            System.out.println("hit by client");
-            book= list.stream().filter(e->e.getBookId()==id).findFirst().get();
-     
 
+    // get single by id
+    public Optional<Book> getBookById(int id) {
+        Optional<Book> book = null;
+
+        try {
+            // System.out.println("hit by client");
+            // book= list.stream().filter(e->e.getBookId()==id).findFirst().get();
+            book =  this.bookRepository.findById(id);
+            return book;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        catch (Exception e) {
-        e.printStackTrace(); 
-        }
-       
+
         return book;
-        
+
     }
-	public Book addBook(Book book) {
-        list.add(book);
+
+    public Book addBook(Book book) {
+        // list.add(book);
         System.out.println("hit by client");
-        return book;
-	}
-	public void deleteBook(int id) {
-        list = list.stream().filter(book->book.getBookId()!=id
-        // {
-        //     if(book.getBookId()!=id){
-        //         return true;
-        //     }else{
-        //         return false;
-        //     }
-        // }
-        ).collect(Collectors.toList());
-      
+        Book booknew = this.bookRepository.save(book);
+        return booknew;
     }
 
-    //update book
-	public void updateBook(Book book,int bookId) {
-        list.stream().map(b->{
-            if(b.getBookId()==bookId){
-                b.setBookName(book.getBookName());
-                b.setBookPrice(book.getBookPrice());
-            }
-            return b;
+    public void deleteBook(int id) {
+        // list = list.stream().filter(book -> book.getBookId() != id
+        // {
+        // if(book.getBookId()!=id){
+        // return true;
+        // }else{
+        // return false;
+        // }
+        // }
+        // ).collect(Collectors.toList());
+          bookRepository.deleteById(id);
+    }
 
-        }).collect(Collectors.toList());
-         
-	}
-     
-}
+    // update book
+    public void updateBook(Book book, int bookId) {
+    //     list.stream().map(b -> {
+    //         if (b.getBookId() == bookId) {
+    //             b.setBookName(book.getBookName());
+    //             b.setBookPrice(book.getBookPrice());
+    //         }
+    //         return b;
+
+    //     }).collect(Collectors.toList());
+
+    // }
+    book.setBookId(bookId);;
+    bookRepository.save(book);
+
+}}
