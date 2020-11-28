@@ -4,7 +4,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = "AUTHOR")
@@ -14,6 +17,9 @@ public class Author {
     private int authorId;
     private String authorName;
     private String language;
+    @OneToOne(mappedBy = "author")
+    @JsonBackReference
+    private Book book;
 
     public Author(int authorId, String authorName, String language) {
         this.authorId = authorId;
@@ -51,6 +57,14 @@ public class Author {
 
     public void setLanguage(String language) {
         this.language = language;
+    }
+
+    public Book getBook() {
+        return book;
+    }
+
+    public void setBook(Book book) {
+        this.book = book;
     }
 
 }
