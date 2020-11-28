@@ -73,4 +73,7 @@ public class BookService {
     book.setBookId(bookId);;
     bookRepository.save(book);
 
-}}
+}
+
+	public void addAll(List<Book> book) {
+	}}
